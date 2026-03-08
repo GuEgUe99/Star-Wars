@@ -1,33 +1,34 @@
 package com.example.starwarsapp.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
-import coil.compose.rememberAsyncImagePainter
 import com.example.starwarsapp.R
-import com.example.starwarsapp.model.Character
 import com.example.starwarsapp.ui.viewmodel.CharacterViewModel
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FilterList
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.material3.TextFieldDefaults
+import com.example.starwarsapp.ui.components.CharacterCard
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun CharacterScreen(viewModel: CharacterViewModel, modifier: Modifier = Modifier) {
+fun CharacterScreen(
+    viewModel: CharacterViewModel,
+    onBackClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
 
     val characters = viewModel.characters
     val loading = viewModel.isLoading
@@ -44,14 +45,25 @@ fun CharacterScreen(viewModel: CharacterViewModel, modifier: Modifier = Modifier
 
     Column(modifier = modifier.fillMaxSize()) {
 
-        // Überschrift + Filter Icon auf einer Linie
+        // Header: Back Button + Title + Filter
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(24.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+
+            IconButton(onClick = onBackClick) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = stringResource(R.string.back)
+                )
+            }
+
+            Box(
+                modifier = Modifier.weight(1f),
+                contentAlignment = Alignment.Center
+            ) {
                 Text(
                     text = stringResource(R.string.title_characters),
                     style = MaterialTheme.typography.headlineMedium.copy(
@@ -77,11 +89,13 @@ fun CharacterScreen(viewModel: CharacterViewModel, modifier: Modifier = Modifier
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))
+                    .background(
+                        MaterialTheme.colorScheme.surfaceVariant,
+                        RoundedCornerShape(8.dp)
+                    )
                     .padding(8.dp)
             ) {
 
-                // Suchfeld
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
@@ -99,7 +113,6 @@ fun CharacterScreen(viewModel: CharacterViewModel, modifier: Modifier = Modifier
                     )
                 )
 
-                // Buchstabenfilter als FlowRow
                 FlowRow(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -110,17 +123,25 @@ fun CharacterScreen(viewModel: CharacterViewModel, modifier: Modifier = Modifier
                             modifier = Modifier
                                 .size(32.dp)
                                 .background(
-                                    if (selectedLetter == letter) MaterialTheme.colorScheme.primary
-                                    else MaterialTheme.colorScheme.surfaceVariant,
+                                    if (selectedLetter == letter)
+                                        MaterialTheme.colorScheme.primary
+                                    else
+                                        MaterialTheme.colorScheme.surfaceVariant,
                                     shape = RoundedCornerShape(4.dp)
                                 )
-                                .clickable { selectedLetter = if (selectedLetter == letter) null else letter },
+                                .clickable {
+                                    selectedLetter =
+                                        if (selectedLetter == letter) null else letter
+                                },
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
                                 text = letter.toString(),
-                                color = if (selectedLetter == letter) MaterialTheme.colorScheme.onPrimary
-                                else MaterialTheme.colorScheme.onSurface
+                                color =
+                                    if (selectedLetter == letter)
+                                        MaterialTheme.colorScheme.onPrimary
+                                    else
+                                        MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
@@ -130,13 +151,18 @@ fun CharacterScreen(viewModel: CharacterViewModel, modifier: Modifier = Modifier
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Loading / Error / Empty / Characters
+        // Content
         Box(modifier = Modifier.fillMaxSize()) {
             when {
                 loading -> {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                            CircularProgressIndicator(
+                                color = MaterialTheme.colorScheme.primary
+                            )
                             Spacer(modifier = Modifier.height(12.dp))
                             Text(
                                 stringResource(R.string.loading_characters),
@@ -147,13 +173,19 @@ fun CharacterScreen(viewModel: CharacterViewModel, modifier: Modifier = Modifier
                 }
 
                 error != null -> {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
                         Text(text = error, color = MaterialTheme.colorScheme.error)
                     }
                 }
 
                 filteredCharacters.isEmpty() -> {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
                         Text(
                             stringResource(R.string.no_characters_found),
                             color = MaterialTheme.colorScheme.onBackground
@@ -164,7 +196,10 @@ fun CharacterScreen(viewModel: CharacterViewModel, modifier: Modifier = Modifier
                 else -> {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
+                        contentPadding = PaddingValues(
+                            horizontal = 8.dp,
+                            vertical = 4.dp
+                        )
                     ) {
                         items(filteredCharacters) { character ->
                             CharacterCard(character)
@@ -172,46 +207,6 @@ fun CharacterScreen(viewModel: CharacterViewModel, modifier: Modifier = Modifier
                     }
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun CharacterCard(character: Character) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        elevation = CardDefaults.cardElevation(4.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        )
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = character.name,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Image(
-                painter = rememberAsyncImagePainter(character.image),
-                contentDescription = character.name,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp),
-                contentScale = ContentScale.Crop
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = character.description,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface
-            )
         }
     }
 }

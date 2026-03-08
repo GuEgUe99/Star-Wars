@@ -5,6 +5,7 @@ coilCompose = "2.7.0"
 coilComposeVersion = "2.4.0"
 composeBomVersion = "2023.06.01"
 converterGson = "3.0.0"
+coreKtxVersion = "1.10.1"
 foundation = "1.10.4"
 gson = "2.13.2"
 kotlin = "2.0.21"
@@ -37,6 +38,7 @@ androidx-compose-material-icons-extended = { module = "androidx.compose.material
 androidx-compose-material3-window-size-class1 = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3WindowSizeClass" }
 androidx-compose-ui-text-google-fonts-v150 = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "uiTextGoogleFontsVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-ktx-v1101 = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
 androidx-foundation = { module = "androidx.compose.foundation:foundation" }
 androidx-lifecycle-runtime-ktx-v262 = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtxVersion" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleRuntimeKtxVersion" }

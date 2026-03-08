@@ -59,6 +59,20 @@ fun StartScreen(navController: NavController) {
                     color = MaterialTheme.colorScheme.onPrimary
                 )
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Info Button
+            Button(
+                onClick = { navController.navigate("info") },
+                modifier = Modifier.fillMaxWidth(0.5f)
+            ) {
+                Text(
+                    text = stringResource(R.string.info),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
         }
     }
 }

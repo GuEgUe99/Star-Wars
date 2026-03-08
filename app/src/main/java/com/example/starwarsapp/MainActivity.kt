@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.*
 import com.example.starwarsapp.ui.screens.CharacterScreen
+import com.example.starwarsapp.ui.screens.InfoScreen
 import com.example.starwarsapp.ui.screens.StartScreen
 import com.example.starwarsapp.ui.theme.StarWarsAppTheme
 import com.example.starwarsapp.ui.viewmodel.CharacterViewModel
@@ -24,18 +25,34 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             StarWarsAppTheme {
+
                 val navController = rememberNavController()
                 val viewModel: CharacterViewModel = viewModel()
+
                 Scaffold(modifier = Modifier.fillMaxSize()) {
+
                     NavHost(
                         navController = navController,
                         startDestination = "start"
                     ) {
+
                         composable("start") {
                             StartScreen(navController)
                         }
+
+                        composable("info") {
+                            InfoScreen(
+                                onBackClick = { navController.popBackStack() }
+                            )
+                        }
+
                         composable("characters") {
-                            CharacterScreen(viewModel = viewModel)
+                            CharacterScreen(
+                                viewModel = viewModel,
+                                onBackClick = {
+                                    navController.popBackStack()
+                                }
+                            )
                         }
                     }
                 }
