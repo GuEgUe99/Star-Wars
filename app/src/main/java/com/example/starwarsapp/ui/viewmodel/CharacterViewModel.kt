@@ -6,7 +6,6 @@ import com.example.starwarsapp.model.Character
 import com.example.starwarsapp.repository.CharacterRepository
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.*
-import kotlinx.coroutines.delay
 
 class CharacterViewModel : ViewModel() {
 
@@ -31,8 +30,6 @@ class CharacterViewModel : ViewModel() {
 
             isLoading = true
             errorMessage = null
-
-            //delay(5000) --> Zum testen des Loading Prozesses
 
             try {
 

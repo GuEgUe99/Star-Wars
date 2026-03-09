@@ -28,7 +28,7 @@ fun StartScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
 
-            // Überschrift
+            // Headline of the screen
             Text(
                 text = stringResource(R.string.title_start_page),
                 style = MaterialTheme.typography.headlineLarge.copy(
@@ -39,7 +39,7 @@ fun StartScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Beschreibung
+            // "Description"
             Text(
                 text = stringResource(R.string.start_page_description),
                 style = MaterialTheme.typography.bodyLarge,
@@ -48,7 +48,7 @@ fun StartScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Button zum Characters Screen
+            // Button as Navigation to Characters Screen
             Button(
                 onClick = { navController.navigate("characters") },
                 modifier = Modifier.fillMaxWidth(0.5f)
